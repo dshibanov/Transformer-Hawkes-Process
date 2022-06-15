@@ -1,5 +1,5 @@
 device=0
-data=/kaggle/input/Transformer-Hawkes_Process/data_so/fold1/
+data=data_so/fold1/
 batch=4
 n_head=4
 n_layers=4

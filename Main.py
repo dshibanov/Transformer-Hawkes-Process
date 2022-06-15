@@ -12,7 +12,7 @@ import Utils
 from preprocess.Dataset import get_dataloader
 from transformer.Models import Transformer
 from tqdm import tqdm
-
+import os
 
 def prepare_dataloader(opt):
     """ Load data and prepare dataloader. """
@@ -165,10 +165,9 @@ def train(model, training_data, validation_data, optimizer, scheduler, pred_loss
 def main():
     """ Main function. """
 
+
     parser = argparse.ArgumentParser()
-
     parser.add_argument('-data', required=True)
-
     parser.add_argument('-epoch', type=int, default=30)
     parser.add_argument('-batch_size', type=int, default=16)
 
@@ -190,7 +189,8 @@ def main():
     opt = parser.parse_args()
 
     # default device is CUDA
-    opt.device = torch.device('cuda')
+    opt.device = 'cpu' if os.getenv('CUDA_VISIBLE_DEVICES') == '0' else 'cuda'
+    torch.device(opt.device)
 
     # setup the log file
     with open(opt.log, 'w') as f:
@@ -212,6 +212,7 @@ def main():
         d_k=opt.d_k,
         d_v=opt.d_v,
         dropout=opt.dropout,
+        device=opt.device
     )
     model.to(opt.device)
 
