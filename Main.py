@@ -185,11 +185,15 @@ def main():
     parser.add_argument('-smooth', type=float, default=0.1)
 
     parser.add_argument('-log', type=str, default='log.txt')
-
+    parser.add_argument('--no-cuda', action='store_true', default=False,
+                        help='disables CUDA training')
     opt = parser.parse_args()
 
+
+    use_cuda = not opt.no_cuda and torch.cuda.is_available()
+    print('use_cuda ', use_cuda)
     # default device is CUDA
-    opt.device = 'cpu' if os.getenv('CUDA_VISIBLE_DEVICES') == '0' else 'cuda'
+    opt.device = 'cuda' if use_cuda else 'cpu'
     torch.device(opt.device)
 
     # setup the log file
