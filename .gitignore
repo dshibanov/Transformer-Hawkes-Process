@@ -1,6 +1,9 @@
 data/
+data_so
 log/
-
+*.zip
 __pycache__/
 .idea/
-
+*.ipynb
+Pipfile
+log.txt
